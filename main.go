@@ -22,8 +22,8 @@ type userData struct {
 }
 type clientResponse struct {
 	DecodeText string `json:"decodetext"`
-	Link       string
-	Key        string
+	Link       string `json:"link"`
+	Key        string `json:"key"`
 }
 type templ struct {
 	Text string

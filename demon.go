@@ -101,14 +101,14 @@ func SendMail(srv *gmail.Service, user string) {
 	// Получаем коллекцию писем с MAILTHEME
 	Thr, err := srv.Users.Threads.List(user).Q("subject: " + MAILTHEME).Do()
 	if err != nil {
-		fmt.Println("Error Get mail")
+		log.Fatalf("Error Get mail")
 	}
 	fmt.Println(Thr.Threads)
 	for _, i := range Thr.Threads {
 		//Получаем сообщение из треда
 		message, err := srv.Users.Messages.Get(user, i.Id).Do()
 		if err != nil {
-			fmt.Println("1", err.Error())
+			fmt.Println(err.Error())
 			continue
 		}
 
@@ -123,7 +123,7 @@ func SendMail(srv *gmail.Service, user string) {
 		//кодируем в обычную строку контент из сообщения
 		text, e := base64.RawStdEncoding.DecodeString(txt)
 		if e != nil {
-			fmt.Println(126, e.Error())
+			fmt.Println(e.Error())
 
 		}
 		//Если отсутсвует заголовок отправитель, пропускаем
@@ -146,7 +146,7 @@ func SendMail(srv *gmail.Service, user string) {
 			"\r\n" + link)
 		//Кодируем в формат base64
 		sendmessage.Raw = base64.RawStdEncoding.EncodeToString(temp)
-		//Удаляем лишние символы
+		//Удаляем символы
 		sendmessage.Raw = strings.Replace(sendmessage.Raw, "/", "_", -1)
 		sendmessage.Raw = strings.Replace(sendmessage.Raw, "+", "-", -1)
 		sendmessage.Raw = strings.Replace(sendmessage.Raw, "=", "", -1)

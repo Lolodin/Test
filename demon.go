@@ -20,7 +20,6 @@ import (
 	"google.golang.org/api/gmail/v1"
 )
 
-
 // Retrieve a token, saves the token, then returns the generated client.
 func getClient(config *oauth2.Config) *http.Client {
 	// The file token.json stores the user's access and refresh tokens, and is
@@ -97,58 +96,53 @@ func initDaemon() {
 	user := "testmailgolangapi@gmail.com"
 	DaemonSendMail(srv, user)
 
-
-	}
+}
 func SendMail(srv *gmail.Service, user string) {
-	// Получаем
-	Thr, err:=srv.Users.Threads.List(user).Q("subject: "+ MAILTHEME).Do()
-	if err!=nil{
+	// Получаем коллекцию писем с MAILTHEME
+	Thr, err := srv.Users.Threads.List(user).Q("subject: " + MAILTHEME).Do()
+	if err != nil {
 		fmt.Println("Error Get mail")
 	}
 	fmt.Println(Thr.Threads)
-	for _,i:=range Thr.Threads{
+	for _, i := range Thr.Threads {
 		//Получаем сообщение из треда
-		message, err:=srv.Users.Messages.Get(user,i.Id).Do()
-		if err!= nil {
-			fmt.Println("1",err.Error())
+		message, err := srv.Users.Messages.Get(user, i.Id).Do()
+		if err != nil {
+			fmt.Println("1", err.Error())
 			continue
 		}
 
-			//Сообщение для отправки
+		//Сообщение для отправки
 		var sendmessage gmail.Message
 		//Если данных нет, пропускаем цикл
-		if len(message.Payload.Parts) ==0 {
+		if len(message.Payload.Parts) == 0 {
 			continue
 		}
-		txt:=message.Payload.Parts[0].Body.Data
+		txt := message.Payload.Parts[0].Body.Data
 		txt = strings.Replace(txt, "_", "/", -1)
 		//кодируем в обычную строку контент из сообщения
-		text, e:=base64.RawStdEncoding.DecodeString(txt)
-		if e!= nil {
-			fmt.Println(126,e.Error())
+		text, e := base64.RawStdEncoding.DecodeString(txt)
+		if e != nil {
+			fmt.Println(126, e.Error())
 
 		}
 		//Если отсутсвует заголовок отправитель, пропускаем
-		if len(message.Payload.Headers)<16 {
+		if len(message.Payload.Headers) < 16 {
 			continue
 		}
 		// Шифруем сообщение пользователя
-		fmt.Println(txt, "Сырой текст")
-		fmt.Println(message.Payload.Parts)
-		fmt.Println(text)
-		key, textEndcode:=Encode.EncodeAes(text)
+		key, textEndcode := Encode.EncodeAes(text)
 		//Сохраняем в DB
-		id:=Model.PutTextDB(textEndcode, db)
+		id := Model.PutTextDB(textEndcode, db)
 		//Генерируем тело письма
-		link:="You link: "+"http://"+ADDR+"/id/"+id +"\n"+"You secret key: "+ string(key)
+		link := "You link: " + "http://" + ADDR + "/id/" + id + "\n" + "You secret key: " + string(key)
 		//index для получение адреса
-		index:=strings.Index(message.Payload.Headers[16].Value, "<")
+		index := strings.Index(message.Payload.Headers[16].Value, "<")
 		//Шаблон заголовков
-
-		temp:=[]byte("From:"+user+"\r\n"+
-			"In-Reply-To:" +message.Payload.Headers[16].Value +"\r\n"+
-			"To:"+message.Payload.Headers[16].Value[index:]+"\r\n"+
-			"Subject: Encoding\r\n"+
+		temp := []byte("From:" + user + "\r\n" +
+			"In-Reply-To:" + message.Payload.Headers[16].Value + "\r\n" +
+			"To:" + message.Payload.Headers[16].Value[index:] + "\r\n" +
+			"Subject: Encoding\r\n" +
 			"\r\n" + link)
 		//Кодируем в формат base64
 		sendmessage.Raw = base64.RawStdEncoding.EncodeToString(temp)
@@ -158,36 +152,20 @@ func SendMail(srv *gmail.Service, user string) {
 		sendmessage.Raw = strings.Replace(sendmessage.Raw, "=", "", -1)
 
 		//Отправляем наше сообщение
-		_, err= srv.Users.Messages.Send(user, &sendmessage).Do()
+		_, err = srv.Users.Messages.Send(user, &sendmessage).Do()
 
-		if err!=nil{
+		if err != nil {
 			fmt.Println(err.Error())
 		}
 		//Удаляем сообщение
-		srv.Users.Threads.Delete(user,i.Id).Do()
-
-
-
-
-
-
-
-
-
-
-
-
-
+		srv.Users.Threads.Delete(user, i.Id).Do()
 
 	}
 
 }
 func DaemonSendMail(srv *gmail.Service, user string) {
-	for  {
-		SendMail(srv , user)
-		time.Sleep(10*time.Second)
+	for {
+		SendMail(srv, user)
+		time.Sleep(10 * time.Second)
 	}
 }
-
-
-

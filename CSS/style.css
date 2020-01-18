@@ -1,0 +1,21 @@
+.keyinput {
+    margin-top: 15px;
+    width: 350px;
+    height: 50px;
+}
+.container {
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+}
+.decode {
+    margin-top: 15px;
+    width: 250px;
+    height: 37px;
+}
+.textarea {
+    padding-top: 10px;
+}
+textarea { resize: both; }

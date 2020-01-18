@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Результаты</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="/css/style.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="text" class="container" v-model = "content" >
+<textarea>{{ content }}</textarea>
+</div>
+<div id="form">
+    <input id="textDecode" type="text" class="keyinput container" value="Введите ключ для расшифровки данных">
+    <button class="container decode" v-on:click="decode">Расшифровать</button>
+</div>
+
+<div id="hide" hidden = true >
+    <<.Text>>
+</div>
+
+</body>
+<script src="/Js/id.js"></script>
+</html>

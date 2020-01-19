@@ -77,7 +77,7 @@ func main() {
 	http.HandleFunc("/", indexHandler)
 	http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("./css/"))))
 	http.Handle("/Js/", http.StripPrefix("/Js/", http.FileServer(http.Dir("./Js/"))))
-
+   fmt.Println("Start Server")
 	err := http.ListenAndServe(PORT, nil)
 	if err != nil {
 		fmt.Println(err.Error())

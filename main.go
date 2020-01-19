@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/Lolodin/Test/Encode"
-	"github.com/Lolodin/Test/Model"
+	"NewTest/Encode"
+	"NewTest/Model"
 	"database/sql"
 	"encoding/json"
 	"fmt"

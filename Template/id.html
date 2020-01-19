@@ -9,10 +9,10 @@
 </head>
 <body>
 <div id="text" class="container" v-model = "content" >
-<textarea>{{ content }}</textarea>
+<textarea cols="50" rows="7">{{ content }}</textarea>
 </div>
 <div id="form">
-    <input id="textDecode" type="text" class="keyinput container" value="Введите ключ для расшифровки данных">
+    <input id="textDecode" type="text" class="keyinput container"  value="Введите ключ для расшифровки данных">
     <button class="container decode" v-on:click="decode">Расшифровать</button>
 </div>
 

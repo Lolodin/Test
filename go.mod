@@ -1,4 +1,4 @@
-module github.com/Lolodin/Test
+module NewTest
 go 1.13
 
 require (

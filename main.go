@@ -62,6 +62,13 @@ var (
 	configString = con.Username + ":" + con.Password + "@" + con.Protocol + "(" + con.Address + ")/" + con.DBname
 	db, errBD      = sql.Open(con.DriverName, configString)
 )
+func createSсhemeDB() {
+	_, errDB := db.Exec("create table content (id int not null auto_increment primary key, userContent BLOB)")
+	if errDB != nil {
+		fmt.Println(errDB.Error())
+	}
+}
+
 
 func main() {
 	if errBD != nil {

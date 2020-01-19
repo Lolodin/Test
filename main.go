@@ -60,15 +60,15 @@ var (
 	con          = getConfig()
 	MAILTHEME    = con.Mailtheme
 	configString = con.Username + ":" + con.Password + "@" + con.Protocol + "(" + con.Address + ")/" + con.DBname
-	db, err      = sql.Open(con.DriverName, configString)
+	db, errBD      = sql.Open(con.DriverName, configString)
 )
 
 func main() {
-	if err != nil {
-		fmt.Println(err.Error())
+	if errBD != nil {
+		fmt.Println(errBD.Error())
 	}
 
-	//createSсhemeDB()
+	createSсhemeDB()
 	go initDaemon()
 
 	http.HandleFunc("/ajax", ajaxHandler)

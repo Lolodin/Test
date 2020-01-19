@@ -1,8 +1,6 @@
 package main
 
 import (
-	"github.com/Lolodin/Test/Encode"
-	"github.com/Lolodin/Test/Model"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"

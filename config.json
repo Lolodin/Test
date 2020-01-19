@@ -3,7 +3,7 @@
     "username": "root",
     "password": "root",
     "protocol": "tcp",
-    "address" : "localhost:3306",
+    "address" : "localhost:1994",
     "dbname": "mydata",
     "addr" : "localhost",
     "mailtheme" : "SHA256"

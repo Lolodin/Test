@@ -1,4 +1,6 @@
 # Описание работы сервиса
+[Ссылка на ТЗ](https://docs.google.com/document/d/1SdPYIov3exYCFqPcQYepGJavjVheayRSO69DRjBnU3g/edit)
+
 Для написания сервиса использовались следующие технологии
 * База данных MySQL
 * [API для работы с Gmail](https://godoc.org/google.golang.org/api/gmail/v1)
